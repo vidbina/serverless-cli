@@ -1,10 +1,13 @@
 SHELL=/bin/sh
 DOCKER=docker
 
+OWNER=vidbina
+PROJECT=serverless-cli
+
 include VERSION
 
-LIST_FILTER=-f "label=owner=vidbina" \
-	-f "label=project=serverless-cli"
+LIST_FILTER=-f "label=owner=${OWNER}" \
+	-f "label=project=${PROJECT}"
 LIST_CONTAINER_CMD=${DOCKER} ps ${LIST_FILTER} -a
 LIST_IMG_CMD=${DOCKER} images ${LIST_FILTER} -a
 
@@ -14,10 +17,10 @@ LIST_IMG_IDS_CMD=${LIST_IMG_CMD} -q
 run: Dockerfile
 	${DOCKER} build \
 		--rm --force-rm \
-		-t "serverless:latest" \
-		-t "serverless:${VERSION}" \
+		-t "${OWNER}/${PROJECT}:latest" \
+		-t "${OWNER}/${PROJECT}:${VERSION}" \
 		--build-arg version="v${VERSION}" \
-		--label="owner=vidbina" --label="project=serverless-cli" \
+		--label="owner=${OWNER}" --label="project=${PROJECT}" \
 		.
 
 clean-containers:
