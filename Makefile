@@ -14,7 +14,7 @@ LIST_IMG_CMD=${DOCKER} images ${LIST_FILTER} -a
 LIST_CONTAINER_IDS_CMD=${LIST_CONTAINER_CMD} -q
 LIST_IMG_IDS_CMD=${LIST_IMG_CMD} -q
 
-run: Dockerfile
+build: Dockerfile
 	${DOCKER} build \
 		--rm --force-rm \
 		-t "${OWNER}/${PROJECT}:latest" \
@@ -35,6 +35,14 @@ clean-images:
 	else echo "No images to cleanup"; \
 	fi
 
+shell:
+	${DOCKER} run \
+		-v ${HOME}/.aws:/home/.aws \
+		-v $(realpath .)/serverless:/home/serverless \
+		-it --rm \
+		vidbina/serverless-cli:latest \
+		/bin/sh
+
 clean: clean-containers clean-images
 
-.PHONY: run clean-containers clean-images clean
+.PHONY: build clean-containers clean-images clean shell
