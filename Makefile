@@ -37,8 +37,8 @@ clean-images:
 
 shell:
 	${DOCKER} run \
-		-v ${HOME}/.aws:/home/.aws \
-		-v $(realpath .)/serverless:/home/serverless \
+		-v ${HOME}/.aws:/root/.aws \
+		-v ${PWD}:/root/serverless \
 		-it --rm \
 		vidbina/serverless-cli:latest \
 		/bin/sh
