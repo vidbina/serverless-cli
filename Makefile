@@ -37,9 +37,10 @@ clean-images:
 
 shell:
 	${DOCKER} run \
-		-v ${HOME}/.aws:/root/.aws \
 		-v ${PWD}:/root/serverless \
 		-it --rm \
+		--env AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id) \
+		--env AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key) \
 		vidbina/serverless-cli:latest \
 		/bin/sh
 
